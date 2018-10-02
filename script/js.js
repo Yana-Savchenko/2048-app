@@ -32,9 +32,9 @@ $(document).ready(function () {
     const startNumber = random(1, 10) === 4 ? 4 : 2;
     const row = random(0, 3);
     const column = random(0, 3);
-    // gameSpace[row][column] = startNumber;
-    gameSpace[1][1] = 1;
-    gameSpace[2][1] = 3;
+    gameSpace[row][column] = startNumber;
+    // gameSpace[1][1] = 1;
+    // gameSpace[2][1] = 3;
     render();
   }
 
@@ -135,9 +135,22 @@ $(document).ready(function () {
       for (var j = 0; j < 4; j++) {
         let cell = document.createElement('div');
         $(cell).addClass("cell");
-        if (gameSpace[i][j]) {
-          $(cell).text(gameSpace[i][j]);
+        switch(gameSpace[i][j]){
+          case(2): {
+            $(cell).text(gameSpace[i][j]);
+            $(cell).addClass("two");
+            break;
+          }
+          case(4): {
+            $(cell).text(gameSpace[i][j]);
+            $(cell).addClass("four");
+            break;
+          }
         }
+        // if (gameSpace[i][j]) {
+        //   $(cell).text(gameSpace[i][j]);
+
+        // }
         $(cells).append(cell);
         $("#wrapper").append(cells);
       }
