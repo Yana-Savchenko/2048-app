@@ -1,5 +1,7 @@
 $(document).ready(function () {
   let gameSpace = [];
+  let isFieldChanged = false;
+  let isStart = true;
   initialize();
 
   $(document).keydown((e) => {
@@ -29,20 +31,17 @@ $(document).ready(function () {
         gameSpace[i][j] = 0;
       }
     }
-    const startNumber = random(1, 10) === 4 ? 4 : 2;
-    const row = random(0, 3);
-    const column = random(0, 3);
-    gameSpace[row][column] = startNumber;
-    gameSpace[1][1] = 2;
-    gameSpace[1][2] = 2;
-    gameSpace[1][3] = 2;
+    createNewCell();
+    createNewCell();
     render();
+    isStart = false;
   }
 
   function moveLeft() {
     console.log("left");
     for (let i = 0; i < 4; i++) {
-      let newRow = getFullCells(getRow(i));
+      let row = getRow(i)
+      let newRow = getFullCells(row);
       for (let j = newRow.length - 1; j >= 0; j--) {
         if (newRow[j] === newRow[j - 1]) {
           newRow[j - 1] = newRow[j] * 2;
@@ -54,6 +53,11 @@ $(document).ready(function () {
           newRow.push(0);
         }
         gameSpace[i] = newRow;
+        for(let i = 0; i < 4; i++){
+          if(row[i] !== newRow[i]){
+            isFieldChanged = true;
+          }
+        }
       }
     }
     render();
@@ -61,7 +65,8 @@ $(document).ready(function () {
 
   function moveRight() {
     for (let i = 0; i < 4; i++) {
-      let newRow = getFullCells(getRow(i));
+      let row = getRow(i)
+      let newRow = getFullCells(row);
       for (let j = 0; j < newRow.length; j++) {
         if (newRow[j] === newRow[j + 1]) {
           newRow[j + 1] = newRow[j] * 2;
@@ -74,6 +79,11 @@ $(document).ready(function () {
         newRow.unshift(0);
       }
       gameSpace[i] = newRow;
+      for(let i = 0; i < 4; i++){
+        if(row[i] !== newRow[i]){
+          isFieldChanged = true;
+        }
+      }
     }
     render();
 
@@ -81,7 +91,8 @@ $(document).ready(function () {
 
   function moveUp() {
     for (let i = 0; i < 4; i++) {
-      let newColumn = getFullCells(getColumn(i));
+      let column = getColumn(i);
+      let newColumn = getFullCells(column);
       for (let j = newColumn.length - 1; j >= 0; j--) {
         if (newColumn[j] === newColumn[j - 1]) {
           newColumn[j - 1] = newColumn[j] * 2;
@@ -95,6 +106,11 @@ $(document).ready(function () {
         for (let k = 0; k < 4; k++) {
           gameSpace[k][i] = newColumn[k];
         }
+        for(let i = 0; i < 4; i++){
+          if(column[i] !== newColumn[i]){
+            isFieldChanged = true;
+          }
+        }
       }
     }
     render();
@@ -103,7 +119,7 @@ $(document).ready(function () {
   function moveDown() {
     for (let i = 0; i < 4; i++) {
       let column = getColumn(i);
-      let newColumn = getFullCells(getColumn(i));
+      let newColumn = getFullCells(column);
       for (let j = 0; j < column.length; j++) {
         if (newColumn[j] === newColumn[j + 1]) {
           newColumn[j + 1] = newColumn[j] * 2;
@@ -116,6 +132,11 @@ $(document).ready(function () {
         }
         for (let k = 0; k < 4; k++) {
           gameSpace[k][i] = newColumn[k];
+        }
+        for(let i = 0; i < 4; i++){
+          if(column[i] !== newColumn[i]){
+            isFieldChanged = true;
+          }
         }
       }
     }
@@ -151,7 +172,29 @@ $(document).ready(function () {
     return Math.round(min - 0.5 + Math.random() * (max - min + 1));
   }
 
+  function getEmptyCells() {
+    let emptyCells = [];
+    for (let i = 0; i < 4; i++) {
+      for (var j = 0; j < 4; j++) {
+        if (!gameSpace[i][j]) {
+          emptyCells.push({ x: i, y: j });
+        }
+      }
+    }
+    return emptyCells;
+  }
+
+  function createNewCell() {
+    let emptyCells = getEmptyCells();
+    newNumber = random(1, 10) === 4 ? 4 : 2;
+    newCell = emptyCells[random(0, emptyCells.length - 1)];
+    console.log(newNumber, newCell);
+    gameSpace[newCell.x][newCell.y] = newNumber;
+  }
   function render() {
+    if (!isStart && isFieldChanged) {
+      createNewCell();
+    }
     $("#wrapper").empty();
     let cells = document.createDocumentFragment();
     for (let i = 0; i < 4; i++) {
@@ -194,11 +237,32 @@ $(document).ready(function () {
             $(cell).addClass("four");
             break;
           }
+          case (256): {
+            $(cell).text(gameSpace[i][j]);
+            $(cell).addClass("four");
+            break;
+          }
+          case (512): {
+            $(cell).text(gameSpace[i][j]);
+            $(cell).addClass("four");
+            break;
+          }
+          case (1024): {
+            $(cell).text(gameSpace[i][j]);
+            $(cell).addClass("four");
+            break;
+          }
+          case (2048): {
+            $(cell).text(gameSpace[i][j]);
+            $(cell).addClass("four");
+            break;
+          }
         }
         $(cells).append(cell);
         $("#wrapper").append(cells);
       }
 
     }
+    isFieldChanged = false;
   }
 });
