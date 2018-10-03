@@ -31,8 +31,8 @@ $(document).ready(function () {
         gameSpace[i][j] = 0;
       }
     }
-    gameSpace[1][1] = 1024;
-    gameSpace[2][2] = 2048;
+    // gameSpace[1][1] = 1024;
+    // gameSpace[2][2] = 2048;
     createNewCell();
     createNewCell();
     render();
@@ -195,7 +195,7 @@ $(document).ready(function () {
     if (!isStart && isFieldChanged) {
       createNewCell();
     }
-    $("#wrapper").empty();
+    $("#game-field").empty();
     let cells = document.createDocumentFragment();
     for (let i = 0; i < 4; i++) {
       for (var j = 0; j < 4; j++) {
@@ -259,7 +259,7 @@ $(document).ready(function () {
           }
         }
         $(cells).append(cell);
-        $("#wrapper").append(cells);
+        $("#game-field").append(cells);
       }
 
     }

@@ -1,11 +1,42 @@
+html {
+    font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+    color: #776e66;
+}
+body {
+    background-color: #faf8ef;
+}
+.wrapper {
+    margin: auto;
+    width: 490px;
+}
+.title, .start {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.title h1 {
+    color: #776e66;
+    font-size: 80px;
+    margin-bottom: 0px;
+}
+
+.start div{
+    background-color:#907967;
+    color: #f9f6f2;
+    padding: 10px 15px;
+    border-radius: 2px;
+    font-weight: bold;
+}
+span {
+    font-weight: bold;
+}
 .field {
-    width: 480px;
 	display: flex;
 	flex-wrap: wrap;
     justify-content: flex-start;
     background-color: #bbaca0;
     border-radius: 5px;
-    margin: auto;
+    margin: 20px 0;
     padding: 10px 0 0 10px;
 }
 .cell {
@@ -18,7 +49,6 @@
     border-radius: 5px;
     color: #f9f6f2;
     font-size: 55px;
-    font-family: sans-serif;
     font-weight: bold;
 }
 .cell2 {
