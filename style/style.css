@@ -11,13 +11,50 @@
 .cell {
     width: 110px;
     height: 110px;
+    line-height: 110px;
+    text-align: center;
     background-color:#cebfb4;
     margin: 0 10px 10px 0;
     border-radius: 5px;
+    color: #f9f6f2;
+    font-size: 55px;
+    font-family: sans-serif;
+    font-weight: bold;
 }
-.two {
+.cell2 {
     background-color: #efe3da;
+    color: #776e66;
 }
-.four {
+.cell4 {
     background-color: #eedfc8;
+    color: #776e66;
+}
+.cell8 {
+    background-color: #f7af7e;
+}
+.cell16 {
+    background-color:#fc9369;
+}
+.cell32 {
+    background-color: #fe7b64;
+}
+.cell64 {
+    background-color: #ff5e46;
+}
+.cell128 {
+    background-color: #f0ce7a;
+}
+.cell256 {
+    background-color: #f0cb6c;
+}
+.cell512 {
+    background-color: #ff9647;
+}
+.cell1024 {
+    background-color: #e7b939;
+    font-size: 48px;
+}
+.cell2048 {
+    background-color: #f2c147;
+    font-size: 48px;
 }

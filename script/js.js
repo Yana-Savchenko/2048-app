@@ -31,6 +31,8 @@ $(document).ready(function () {
         gameSpace[i][j] = 0;
       }
     }
+    gameSpace[1][1] = 1024;
+    gameSpace[2][2] = 2048;
     createNewCell();
     createNewCell();
     render();
@@ -38,7 +40,6 @@ $(document).ready(function () {
   }
 
   function moveLeft() {
-    console.log("left");
     for (let i = 0; i < 4; i++) {
       let row = getRow(i)
       let newRow = getFullCells(row);
@@ -188,7 +189,6 @@ $(document).ready(function () {
     let emptyCells = getEmptyCells();
     newNumber = random(1, 10) === 4 ? 4 : 2;
     newCell = emptyCells[random(0, emptyCells.length - 1)];
-    console.log(newNumber, newCell);
     gameSpace[newCell.x][newCell.y] = newNumber;
   }
   function render() {
@@ -204,57 +204,57 @@ $(document).ready(function () {
         switch (gameSpace[i][j]) {
           case (2): {
             $(cell).text(gameSpace[i][j]);
-            $(cell).addClass("two");
+            $(cell).addClass("cell2");
             break;
           }
           case (4): {
             $(cell).text(gameSpace[i][j]);
-            $(cell).addClass("four");
+            $(cell).addClass("cell4");
             break;
           }
           case (8): {
             $(cell).text(gameSpace[i][j]);
-            $(cell).addClass("four");
+            $(cell).addClass("cell8");
             break;
           }
           case (16): {
             $(cell).text(gameSpace[i][j]);
-            $(cell).addClass("four");
+            $(cell).addClass("cell16");
             break;
           }
           case (32): {
             $(cell).text(gameSpace[i][j]);
-            $(cell).addClass("four");
+            $(cell).addClass("cell32");
             break;
           }
           case (64): {
             $(cell).text(gameSpace[i][j]);
-            $(cell).addClass("four");
+            $(cell).addClass("cell64");
             break;
           }
           case (128): {
             $(cell).text(gameSpace[i][j]);
-            $(cell).addClass("four");
+            $(cell).addClass("cell128");
             break;
           }
           case (256): {
             $(cell).text(gameSpace[i][j]);
-            $(cell).addClass("four");
+            $(cell).addClass("cell256");
             break;
           }
           case (512): {
             $(cell).text(gameSpace[i][j]);
-            $(cell).addClass("four");
+            $(cell).addClass("cell512");
             break;
           }
           case (1024): {
             $(cell).text(gameSpace[i][j]);
-            $(cell).addClass("four");
+            $(cell).addClass("cell1024");
             break;
           }
           case (2048): {
             $(cell).text(gameSpace[i][j]);
-            $(cell).addClass("four");
+            $(cell).addClass("cell2048");
             break;
           }
         }
