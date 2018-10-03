@@ -33,58 +33,68 @@ $(document).ready(function () {
     const row = random(0, 3);
     const column = random(0, 3);
     gameSpace[row][column] = startNumber;
-    // gameSpace[1][1] = 1;
-    // gameSpace[2][1] = 3;
+    gameSpace[1][1] = 2;
+    gameSpace[1][2] = 2;
+    gameSpace[1][3] = 2;
     render();
   }
 
   function moveLeft() {
     console.log("left");
     for (let i = 0; i < 4; i++) {
-      let row = getRow(i);
-      let newRow = [];
-      for (let j = row.length - 1; j >= 0; j--) {
-        if (!row[j]) {
-          newRow.push(row[j]);
-        } else {
-          newRow.unshift(row[j]);
+      let newRow = getFullCells(getRow(i));
+      for (let j = newRow.length - 1; j >= 0; j--) {
+        if (newRow[j] === newRow[j - 1]) {
+          newRow[j - 1] = newRow[j] * 2;
+          newRow[j] = 0;
+          j--;
         }
+        newRow = getFullCells(newRow);
+        while (newRow.length < 4) {
+          newRow.push(0);
+        }
+        gameSpace[i] = newRow;
       }
-      gameSpace[i] = newRow;
     }
     render();
   }
 
   function moveRight() {
     for (let i = 0; i < 4; i++) {
-      let row = getRow(i);
-      let newRow = [];
-      for (let j = 0; j < row.length; j++) {
-        if (!row[j]) {
-          newRow.unshift(row[j]);
-        } else {
-          newRow.push(row[j]);
+      let newRow = getFullCells(getRow(i));
+      for (let j = 0; j < newRow.length; j++) {
+        if (newRow[j] === newRow[j + 1]) {
+          newRow[j + 1] = newRow[j] * 2;
+          newRow[j] = 0;
+          j++;
         }
+      }
+      newRow = getFullCells(newRow);
+      while (newRow.length < 4) {
+        newRow.unshift(0);
       }
       gameSpace[i] = newRow;
     }
     render();
+
   }
 
   function moveUp() {
     for (let i = 0; i < 4; i++) {
-      let column = getColumn(i);
-      let newColumn = [];
-      for (let j = column.length - 1; j >= 0; j--) {
-        if (!column[j]) {
-          newColumn.push(column[j]);
-          
-        } else {
-          newColumn.unshift(column[j]);
+      let newColumn = getFullCells(getColumn(i));
+      for (let j = newColumn.length - 1; j >= 0; j--) {
+        if (newColumn[j] === newColumn[j - 1]) {
+          newColumn[j - 1] = newColumn[j] * 2;
+          newColumn[j] = 0;
+          j--;
         }
-      }
-      for (let k = 0; k < 4; k++) {
-        gameSpace[k][i] = newColumn[k];
+        newColumn = getFullCells(newColumn);
+        while (newColumn.length < 4) {
+          newColumn.push(0);
+        }
+        for (let k = 0; k < 4; k++) {
+          gameSpace[k][i] = newColumn[k];
+        }
       }
     }
     render();
@@ -93,21 +103,34 @@ $(document).ready(function () {
   function moveDown() {
     for (let i = 0; i < 4; i++) {
       let column = getColumn(i);
-      let newColumn = [];
+      let newColumn = getFullCells(getColumn(i));
       for (let j = 0; j < column.length; j++) {
-        if (!column[j]) {
-          newColumn.unshift(column[j]);
-        } else {
-          newColumn.push(column[j]);
+        if (newColumn[j] === newColumn[j + 1]) {
+          newColumn[j + 1] = newColumn[j] * 2;
+          newColumn[j] = 0;
+          j++;
+        }
+        newColumn = getFullCells(newColumn);
+        while (newColumn.length < 4) {
+          newColumn.unshift(0);
+        }
+        for (let k = 0; k < 4; k++) {
+          gameSpace[k][i] = newColumn[k];
         }
       }
-      for (let k = 0; k < 4; k++) {
-        gameSpace[k][i] = newColumn[k];
-      }
     }
-     render();
+    render();
   }
 
+  function getFullCells(arr) {
+    let fullCellsArr = [];
+    arr.forEach(num => {
+      if (num) {
+        fullCellsArr.push(num);
+      }
+    });
+    return fullCellsArr;
+  }
   function getRow(num) {
     let row = [];
     for (let i = 0; i < 4; i++) {
@@ -135,22 +158,43 @@ $(document).ready(function () {
       for (var j = 0; j < 4; j++) {
         let cell = document.createElement('div');
         $(cell).addClass("cell");
-        switch(gameSpace[i][j]){
-          case(2): {
+        switch (gameSpace[i][j]) {
+          case (2): {
             $(cell).text(gameSpace[i][j]);
             $(cell).addClass("two");
             break;
           }
-          case(4): {
+          case (4): {
+            $(cell).text(gameSpace[i][j]);
+            $(cell).addClass("four");
+            break;
+          }
+          case (8): {
+            $(cell).text(gameSpace[i][j]);
+            $(cell).addClass("four");
+            break;
+          }
+          case (16): {
+            $(cell).text(gameSpace[i][j]);
+            $(cell).addClass("four");
+            break;
+          }
+          case (32): {
+            $(cell).text(gameSpace[i][j]);
+            $(cell).addClass("four");
+            break;
+          }
+          case (64): {
+            $(cell).text(gameSpace[i][j]);
+            $(cell).addClass("four");
+            break;
+          }
+          case (128): {
             $(cell).text(gameSpace[i][j]);
             $(cell).addClass("four");
             break;
           }
         }
-        // if (gameSpace[i][j]) {
-        //   $(cell).text(gameSpace[i][j]);
-
-        // }
         $(cells).append(cell);
         $("#wrapper").append(cells);
       }
