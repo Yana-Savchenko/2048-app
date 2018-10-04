@@ -29,6 +29,7 @@ $(document).ready(function () {
     render();
     isStart = false;
   }
+
   function move(e) {
     switch (e.keyCode) {
       case (37): {
@@ -50,6 +51,7 @@ $(document).ready(function () {
       }
     }
   }
+
   function moveLeft() {
     for (let i = 0; i < 4; i++) {
       let row = getRow(i)
@@ -199,6 +201,9 @@ $(document).ready(function () {
         }
       }
     }
+    if(emptyCells.length === 0) {
+      return false;
+    }
     return emptyCells;
   }
 
@@ -209,6 +214,25 @@ $(document).ready(function () {
     gameSpace[newCell.x][newCell.y] = newNumber;
   }
 
+  function checkMove() {
+    for (let i = 0; i < 4; i++) {
+      let row = getRow(i)
+      for (let j = 0; j < 3; j++) {
+        if (row[j] == row[j+1]) {
+          return true;
+        }
+      }
+    }
+    for (let i = 0; i < 4; i++) {
+      let column = getColumn(i)
+      for (let j = 0; j < 3; j++) {
+        if (column[j] == column[j+1]) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
   function showWin() {
     $(".game-win").css("opacity", "1");
     $(document).unbind('keydown', move);
@@ -282,9 +306,12 @@ $(document).ready(function () {
           }
         }
         $(cells).append(cell);
-        
+
       }
 
+    }
+    if (!getEmptyCells() && !checkMove()) {
+      $(".game-over").css("opacity", "1");
     }
     $("#game-field").append(cells);
 
