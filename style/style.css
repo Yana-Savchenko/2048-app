@@ -1,6 +1,7 @@
 html {
     font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
     color: #776e66;
+    font-size: 17px;
 }
 body {
     background-color: #faf8ef;
@@ -17,7 +18,22 @@ body {
 .title h1 {
     color: #776e66;
     font-size: 80px;
-    margin-bottom: 0px;
+    margin: 0px;
+}
+.counter {
+    background-color: #bbaca0;
+    color: #eaded5;
+    padding: 10px 10px;
+    border-radius: 2px;
+    text-align: center;
+    font-weight: bold;
+}
+.counter p:last-child{
+    color: #f9f6f2;
+    font-size: 20px;
+}
+.counter p {
+    margin: 0;
 }
 
 .start div{
@@ -26,6 +42,10 @@ body {
     padding: 10px 15px;
     border-radius: 2px;
     font-weight: bold;
+}
+.rules {
+    text-align: justify;
+    line-height: 1.5;
 }
 span {
     font-weight: bold;
