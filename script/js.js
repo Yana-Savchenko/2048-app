@@ -7,6 +7,7 @@ $(document).ready(function () {
 
 
   $(".new-game").click(() => {
+    isStart = true;
     initialize();
   })
   function initialize() {
@@ -57,7 +58,7 @@ $(document).ready(function () {
       let row = getRow(i)
       let newRow = getFullCells(row);
       for (let j = newRow.length - 1; j > 0; j--) {
-        if (newRow[j] === newRow[j - 1] && (newRow.length > 1) && newRow[j - 1]) {
+        if (newRow[j] === newRow[j - 1] && newRow[j - 1]) {
           newRow[j - 1] = newRow[j] * 2;
           counter += newRow[j - 1];
           newRow[j] = 0;
@@ -84,7 +85,7 @@ $(document).ready(function () {
       let row = getRow(i)
       let newRow = getFullCells(row);
       for (let j = 0; j < newRow.length - 1; j++) {
-        if (newRow[j] === newRow[j + 1] && (newRow.length > 1) && newRow[j + 1]) {
+        if (newRow[j] === newRow[j + 1] && newRow[j + 1]) {
           newRow[j + 1] = newRow[j] * 2;
           counter += newRow[j + 1]
           newRow[j] = 0;
@@ -111,7 +112,7 @@ $(document).ready(function () {
       let column = getColumn(i);
       let newColumn = getFullCells(column);
       for (let j = newColumn.length - 1; j > 0; j--) {
-        if (newColumn[j] === newColumn[j - 1] && (newColumn.length > 1) && newColumn[j - 1]) {
+        if (newColumn[j] === newColumn[j - 1] && newColumn[j - 1]) {
           newColumn[j - 1] = newColumn[j] * 2;
           counter += newColumn[j - 1];
           newColumn[j] = 0;
@@ -139,7 +140,7 @@ $(document).ready(function () {
       let column = getColumn(i);
       let newColumn = getFullCells(column);
       for (let j = 0; j < column.length - 1; j++) {
-        if (newColumn[j] === newColumn[j + 1] && (newColumn.length > 1) && newColumn[j + 1]) {
+        if (newColumn[j] === newColumn[j + 1] && newColumn[j + 1]) {
           newColumn[j + 1] = newColumn[j] * 2;
           counter += newColumn[j + 1];
           newColumn[j] = 0;
@@ -237,6 +238,10 @@ $(document).ready(function () {
     $(".game-win").css("opacity", "1");
     $(document).unbind('keydown', move);
   }
+  function showGameOver() {
+    $(".game-over").css("opacity", "1");
+      $(document).unbind('keydown', move);
+  }
   function render() {
     if (!isStart && isFieldChanged) {
       createNewCell();
@@ -311,7 +316,7 @@ $(document).ready(function () {
 
     }
     if (!getEmptyCells() && !checkMove()) {
-      $(".game-over").css("opacity", "1");
+      showGameOver();
     }
     $("#game-field").append(cells);
 
