@@ -51,6 +51,9 @@ body {
 span {
     font-weight: bold;
 }
+.field-container {
+    position: relative;
+}
 .field {
 	display: flex;
 	flex-wrap: wrap;
@@ -108,4 +111,35 @@ span {
 .cell2048 {
     background-color: #f2c147;
     font-size: 48px;
+}
+
+.game-over, .game-win {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(238, 228, 218, 0.73);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.game-over {
+    opacity: 0;
+}
+.game-win {
+    opacity: 0;
+}
+.game-over p, .game-win p {
+    font-size: 60px;
+    font-weight: bold;
+}
+
+.game-over div, .game-win div {
+    font-size: 20px;
+    background-color:#907967;
+    color: #f9f6f2;
+    padding: 10px 15px;
+    border-radius: 2px;
+    font-weight: bold;
+    cursor: pointer;
 }

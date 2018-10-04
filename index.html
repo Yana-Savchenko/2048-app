@@ -20,9 +20,19 @@
     </div>
     <div class="start">
       <p>Join the numbers and get to the <span>2048 tile!</span></p>
-      <div id="new-game">New Game</div>
+      <div class="new-game">New Game</div>
     </div>
-    <div id="game-field" class="field"></div>
+    <div class="field-container">
+      <div class="game-over">
+        <p>Game over!</p>
+        <div class="new-game">Try again</div>
+      </div>
+      <div class="game-win">
+          <p>You win!</p>
+          <div class="new-game">New game</div>
+        </div>
+      <div id="game-field" class="field"></div>
+    </div>
     <div class="rules"><span>HOW TO PLAY:</span> Use your <span>arrow keys</span> to move the tiles. When two tiles with the same number touch, they <span>merge into one!</span> </div>
   </div>
   <script type="text/javascript" src="./script/js.js"></script>

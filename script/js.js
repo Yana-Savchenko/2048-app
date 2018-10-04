@@ -5,9 +5,34 @@ $(document).ready(function () {
   let counter = 0;
   initialize();
 
-  $(document).keydown((e) => {
+
+  $(".new-game").click(() => {
+    initialize();
+  })
+  function initialize() {
+    for (let i = 0; i < 4; i++) {
+      gameSpace[i] = new Array();
+      for (var j = 0; j < 4; j++) {
+        gameSpace[i][j] = 0;
+      }
+    }
+    counter = 0;
+    $(".game-over").css("opacity", "0");
+    $(".game-win").css("opacity", "0");
+    // gameSpace[1][1] = 1024;
+    // gameSpace[1][2] = 1024;
+    // gameSpace[1][3] = 1024;
+    // gameSpace[2][2] = 2048;
+    createNewCell();
+    createNewCell();
+    $(document).bind('keydown', event, move);
+    render();
+    isStart = false;
+  }
+  function move(e) {
     switch (e.keyCode) {
       case (37): {
+        // gameSpace[1][1] = 2048;
         moveLeft();
         break;
       }
@@ -24,26 +49,7 @@ $(document).ready(function () {
         break;
       }
     }
-  })
-  $("#new-game").click(() => {
-    initialize();
-  })
-  function initialize() {
-    for (let i = 0; i < 4; i++) {
-      gameSpace[i] = new Array();
-      for (var j = 0; j < 4; j++) {
-        gameSpace[i][j] = 0;
-      }
-    }
-    counter = 0;
-    // gameSpace[1][1] = 1024;
-    // gameSpace[2][2] = 2048;
-    createNewCell();
-    createNewCell();
-    render();
-    isStart = false;
   }
-
   function moveLeft() {
     for (let i = 0; i < 4; i++) {
       let row = getRow(i)
@@ -202,6 +208,11 @@ $(document).ready(function () {
     newCell = emptyCells[random(0, emptyCells.length - 1)];
     gameSpace[newCell.x][newCell.y] = newNumber;
   }
+
+  function showWin() {
+    $(".game-win").css("opacity", "1");
+    $(document).unbind('keydown', move);
+  }
   function render() {
     if (!isStart && isFieldChanged) {
       createNewCell();
@@ -266,14 +277,16 @@ $(document).ready(function () {
           case (2048): {
             $(cell).text(gameSpace[i][j]);
             $(cell).addClass("cell2048");
+            showWin();
             break;
           }
         }
         $(cells).append(cell);
-        $("#game-field").append(cells);
+        
       }
 
     }
+    $("#game-field").append(cells);
 
     $("#score").text(counter);
     isFieldChanged = false;
