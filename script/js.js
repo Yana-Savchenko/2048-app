@@ -2,6 +2,7 @@ $(document).ready(function () {
   let gameSpace = [];
   let isFieldChanged = false;
   let isStart = true;
+  let counter = 0;
   initialize();
 
   $(document).keydown((e) => {
@@ -24,6 +25,9 @@ $(document).ready(function () {
       }
     }
   })
+  $("#new-game").click(() => {
+    initialize();
+  })
   function initialize() {
     for (let i = 0; i < 4; i++) {
       gameSpace[i] = new Array();
@@ -31,6 +35,7 @@ $(document).ready(function () {
         gameSpace[i][j] = 0;
       }
     }
+    counter = 0;
     // gameSpace[1][1] = 1024;
     // gameSpace[2][2] = 2048;
     createNewCell();
@@ -43,21 +48,23 @@ $(document).ready(function () {
     for (let i = 0; i < 4; i++) {
       let row = getRow(i)
       let newRow = getFullCells(row);
-      for (let j = newRow.length - 1; j >= 0; j--) {
-        if (newRow[j] === newRow[j - 1]) {
+      for (let j = newRow.length - 1; j > 0; j--) {
+        if (newRow[j] === newRow[j - 1] && (newRow.length > 1) && newRow[j - 1]) {
           newRow[j - 1] = newRow[j] * 2;
+          counter += newRow[j - 1];
           newRow[j] = 0;
           j--;
         }
-        newRow = getFullCells(newRow);
-        while (newRow.length < 4) {
-          newRow.push(0);
-        }
-        gameSpace[i] = newRow;
-        for(let i = 0; i < 4; i++){
-          if(row[i] !== newRow[i]){
-            isFieldChanged = true;
-          }
+
+      }
+      newRow = getFullCells(newRow);
+      while (newRow.length < 4) {
+        newRow.push(0);
+      }
+      gameSpace[i] = newRow;
+      for (let i = 0; i < 4; i++) {
+        if (row[i] !== newRow[i]) {
+          isFieldChanged = true;
         }
       }
     }
@@ -68,9 +75,10 @@ $(document).ready(function () {
     for (let i = 0; i < 4; i++) {
       let row = getRow(i)
       let newRow = getFullCells(row);
-      for (let j = 0; j < newRow.length; j++) {
-        if (newRow[j] === newRow[j + 1]) {
+      for (let j = 0; j < newRow.length - 1; j++) {
+        if (newRow[j] === newRow[j + 1] && (newRow.length > 1) && newRow[j + 1]) {
           newRow[j + 1] = newRow[j] * 2;
+          counter += newRow[j + 1]
           newRow[j] = 0;
           j++;
         }
@@ -80,8 +88,8 @@ $(document).ready(function () {
         newRow.unshift(0);
       }
       gameSpace[i] = newRow;
-      for(let i = 0; i < 4; i++){
-        if(row[i] !== newRow[i]){
+      for (let i = 0; i < 4; i++) {
+        if (row[i] !== newRow[i]) {
           isFieldChanged = true;
         }
       }
@@ -94,23 +102,24 @@ $(document).ready(function () {
     for (let i = 0; i < 4; i++) {
       let column = getColumn(i);
       let newColumn = getFullCells(column);
-      for (let j = newColumn.length - 1; j >= 0; j--) {
-        if (newColumn[j] === newColumn[j - 1]) {
+      for (let j = newColumn.length - 1; j > 0; j--) {
+        if (newColumn[j] === newColumn[j - 1] && (newColumn.length > 1) && newColumn[j - 1]) {
           newColumn[j - 1] = newColumn[j] * 2;
+          counter += newColumn[j - 1];
           newColumn[j] = 0;
           j--;
         }
-        newColumn = getFullCells(newColumn);
-        while (newColumn.length < 4) {
-          newColumn.push(0);
-        }
-        for (let k = 0; k < 4; k++) {
-          gameSpace[k][i] = newColumn[k];
-        }
-        for(let i = 0; i < 4; i++){
-          if(column[i] !== newColumn[i]){
-            isFieldChanged = true;
-          }
+      }
+      newColumn = getFullCells(newColumn);
+      while (newColumn.length < 4) {
+        newColumn.push(0);
+      }
+      for (let k = 0; k < 4; k++) {
+        gameSpace[k][i] = newColumn[k];
+      }
+      for (let i = 0; i < 4; i++) {
+        if (column[i] !== newColumn[i]) {
+          isFieldChanged = true;
         }
       }
     }
@@ -121,23 +130,25 @@ $(document).ready(function () {
     for (let i = 0; i < 4; i++) {
       let column = getColumn(i);
       let newColumn = getFullCells(column);
-      for (let j = 0; j < column.length; j++) {
-        if (newColumn[j] === newColumn[j + 1]) {
+      for (let j = 0; j < column.length - 1; j++) {
+        if (newColumn[j] === newColumn[j + 1] && (newColumn.length > 1) && newColumn[j + 1]) {
           newColumn[j + 1] = newColumn[j] * 2;
+          counter += newColumn[j + 1];
           newColumn[j] = 0;
           j++;
         }
-        newColumn = getFullCells(newColumn);
-        while (newColumn.length < 4) {
-          newColumn.unshift(0);
-        }
-        for (let k = 0; k < 4; k++) {
-          gameSpace[k][i] = newColumn[k];
-        }
-        for(let i = 0; i < 4; i++){
-          if(column[i] !== newColumn[i]){
-            isFieldChanged = true;
-          }
+
+      }
+      newColumn = getFullCells(newColumn);
+      while (newColumn.length < 4) {
+        newColumn.unshift(0);
+      }
+      for (let k = 0; k < 4; k++) {
+        gameSpace[k][i] = newColumn[k];
+      }
+      for (let i = 0; i < 4; i++) {
+        if (column[i] !== newColumn[i]) {
+          isFieldChanged = true;
         }
       }
     }
@@ -263,6 +274,8 @@ $(document).ready(function () {
       }
 
     }
+
+    $("#score").text(counter);
     isFieldChanged = false;
   }
 });
