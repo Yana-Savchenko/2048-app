@@ -8,6 +8,7 @@ $(document).ready(function () {
 
   $(".new-game").click(() => {
     isStart = true;
+    $(document).unbind('keydown', move);
     initialize();
   })
   function initialize() {
