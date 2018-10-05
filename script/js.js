@@ -31,10 +31,6 @@ $(document).ready(function () {
     counter = 0;
     $(".game-over").css("opacity", "0");
     $(".game-win").css("opacity", "0");
-    // gameSpace[1][1] = 1024;
-    // gameSpace[1][2] = 1024;
-    // gameSpace[1][3] = 1024;
-    // gameSpace[2][2] = 2048;
     createNewCell();
     createNewCell();
     $(document).bind('keydown', event, move);
@@ -46,7 +42,6 @@ $(document).ready(function () {
     direction = e.keyCode;
     switch (e.keyCode) {
       case (37): {
-        // gameSpace[1][1] = 2048;
         moveLeft();
         break;
       }
@@ -249,18 +244,10 @@ $(document).ready(function () {
         }
       }
     }
-    // for (let i = 0; i < 4; i++) {
-    //   let column = getColumn(i)
-    //   for (let j = 0; j < 3; j++) {
-    //     if (column[j].content == column[j + 1].content) {
-    //       return true;
-    //     }
-    //   }
-    // }
     return false;
   }
   function showWin() {
-    $(".game-win").show() // css("opacity", "1");
+    $(".game-win").show();
     $(document).unbind('keydown', move);
   }
   function showGameOver() {
@@ -288,7 +275,6 @@ $(document).ready(function () {
     }
   }
   function render() {
-    console.log(isFieldChanged);
     if (!isStart && isFieldChanged) {
       createNewCell();
     }
