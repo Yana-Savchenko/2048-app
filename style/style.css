@@ -209,10 +209,7 @@ span {
     font-weight: bold;
 }
 .new-cell {
-    animation: pulse 1s;
-}
-.increaced {
-    animation: pulse 1s;
+    animation: pulse 0.4s;
 }
 .movedLeft {
     animation: moveLeft 0.2s;
