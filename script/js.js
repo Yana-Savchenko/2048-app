@@ -4,10 +4,12 @@ $(document).ready(function () {
   let isStart = true;
   let counter = 0;
   let newCells = [];
+  let direction = 0;
   class Cell {
     constructor(num) {
       this.content = num;
       this.isIncreaced = false;
+      this.isPositionChanged = false;
     }
   }
 
@@ -41,6 +43,7 @@ $(document).ready(function () {
   }
 
   function move(e) {
+    direction = e.keyCode;
     switch (e.keyCode) {
       case (37): {
         // gameSpace[1][1] = 2048;
@@ -80,12 +83,14 @@ $(document).ready(function () {
       while (newRow.length < 4) {
         newRow.push(new Cell(0));
       }
-      gameSpace[i] = newRow;
+      
       for (let i = 0; i < 4; i++) {
         if (row[i].content !== newRow[i].content) {
           isFieldChanged = true;
+          newRow[i].isPositionChanged = true;
         }
       }
+      gameSpace[i] = newRow;
     }
     render();
   }
@@ -107,12 +112,13 @@ $(document).ready(function () {
       while (newRow.length < 4) {
         newRow.unshift(new Cell(0));
       }
-      gameSpace[i] = newRow;
       for (let i = 0; i < 4; i++) {
         if (row[i].content !== newRow[i].content) {
           isFieldChanged = true;
+          newRow[i].isPositionChanged = true;
         }
       }
+      gameSpace[i] = newRow;
     }
     render();
 
@@ -123,7 +129,7 @@ $(document).ready(function () {
       let column = getColumn(i);
       let newColumn = getFullCells(column);
       for (let j = newColumn.length - 1; j > 0; j--) {
-        if (newColumn[j-1] && newColumn[j].content === newColumn[j - 1].content && newColumn[j - 1].content) {
+        if (newColumn[j - 1] && newColumn[j].content === newColumn[j - 1].content && newColumn[j - 1].content) {
           newColumn[j - 1].content = newColumn[j].content * 2;
           newColumn[j - 1].isIncreaced = true;
           counter += newColumn[j - 1].content;
@@ -135,13 +141,14 @@ $(document).ready(function () {
       while (newColumn.length < 4) {
         newColumn.push(new Cell(0));
       }
-      for (let k = 0; k < 4; k++) {
-        gameSpace[k][i] = newColumn[k];
-      }
       for (let i = 0; i < 4; i++) {
         if (column[i].content !== newColumn[i].content) {
           isFieldChanged = true;
+          newColumn[i].isPositionChanged = true;
         }
+      }
+      for (let k = 0; k < 4; k++) {
+        gameSpace[k][i] = newColumn[k];
       }
     }
     render();
@@ -152,7 +159,7 @@ $(document).ready(function () {
       let column = getColumn(i);
       let newColumn = getFullCells(column);
       for (let j = 0; j < column.length - 1; j++) {
-        if (newColumn[j+1] && newColumn[j].content === newColumn[j + 1].content && newColumn[j + 1].content) {
+        if (newColumn[j + 1] && newColumn[j].content === newColumn[j + 1].content && newColumn[j + 1].content) {
           newColumn[j + 1].content = newColumn[j].content * 2;
           newColumn[j + 1].isIncreaced = true;
           counter += newColumn[j + 1].content;
@@ -165,13 +172,14 @@ $(document).ready(function () {
       while (newColumn.length < 4) {
         newColumn.unshift(new Cell(0));
       }
-      for (let k = 0; k < 4; k++) {
-        gameSpace[k][i] = newColumn[k];
-      }
       for (let i = 0; i < 4; i++) {
         if (column[i].content !== newColumn[i].content) {
           isFieldChanged = true;
+          newColumn[i].isPositionChanged = true;
         }
+      }
+      for (let k = 0; k < 4; k++) {
+        gameSpace[k][i] = newColumn[k];
       }
     }
     render();
@@ -181,7 +189,8 @@ $(document).ready(function () {
     let fullCellsArr = [];
     arr.forEach((num) => {
       if (num.content) {
-        fullCellsArr.push(num);
+        let fullCell = Object.assign({}, num);;
+        fullCellsArr.push(fullCell);
       }
     });
     return fullCellsArr;
@@ -215,10 +224,10 @@ $(document).ready(function () {
         }
       }
     }
-    if(emptyCells.length === 0) {
-      return false;
+    if (emptyCells.length) {
+      return emptyCells;
     }
-    return emptyCells;
+    return false;
   }
 
   function createNewCell() {
@@ -227,37 +236,59 @@ $(document).ready(function () {
     let newCellContent = new Cell(newNumber);
     let newCell = emptyCells[random(0, emptyCells.length - 1)];
     gameSpace[newCell.x][newCell.y] = newCellContent;
-    newCells.push({x: newCell.x, y: newCell.y});
+    newCells.push({ x: newCell.x, y: newCell.y });
   }
 
   function checkMove() {
     for (let i = 0; i < 4; i++) {
       let row = getRow(i)
-      for (let j = 0; j < 3; j++) {
-        if (row[j].content == row[j+1].content) {
-          return true;
-        }
-      }
-    }
-    for (let i = 0; i < 4; i++) {
       let column = getColumn(i)
       for (let j = 0; j < 3; j++) {
-        if (column[j].content == column[j+1].content) {
+        if (row[j].content == row[j + 1].content || column[j].content == column[j + 1].content) {
           return true;
         }
       }
     }
+    // for (let i = 0; i < 4; i++) {
+    //   let column = getColumn(i)
+    //   for (let j = 0; j < 3; j++) {
+    //     if (column[j].content == column[j + 1].content) {
+    //       return true;
+    //     }
+    //   }
+    // }
     return false;
   }
   function showWin() {
-    $(".game-win").css("opacity", "1");
+    $(".game-win").show() // css("opacity", "1");
     $(document).unbind('keydown', move);
   }
   function showGameOver() {
     $(".game-over").css("opacity", "1");
-      $(document).unbind('keydown', move);
+    $(document).unbind('keydown', move);
+  }
+  function setDirection(direction, cell) {
+    switch (direction) {
+      case (37): {
+        $(cell).addClass("movedLeft");
+        break;
+      };
+      case (38): {
+        $(cell).addClass("movedUp");
+        break;
+      };
+      case (39): {
+        $(cell).addClass("movedRight");
+        break;
+      };
+      case (40): {
+        $(cell).addClass("movedDown");
+        break;
+      };
+    }
   }
   function render() {
+    console.log(isFieldChanged);
     if (!isStart && isFieldChanged) {
       createNewCell();
     }
@@ -268,12 +299,16 @@ $(document).ready(function () {
         let cell = document.createElement('div');
         $(cell).addClass("cell");
         newCells.forEach((newCell) => {
-          if(i === newCell.x && j === newCell.y) {
+          if (i === newCell.x && j === newCell.y) {
             $(cell).addClass("new-cell");
           }
         })
         if (gameSpace[i][j].isIncreaced) {
           $(cell).addClass("increaced");
+          setDirection(direction, cell);
+        }
+        if (gameSpace[i][j].isPositionChanged && gameSpace[i][j].content) {
+          setDirection(direction, cell);
         }
         switch (gameSpace[i][j].content) {
           case (2): {
@@ -343,13 +378,15 @@ $(document).ready(function () {
     }
     $("#game-field").append(cells);
     $("#score").text(counter);
-    isFieldChanged = false;
     newCells = [];
+    direction = 0;
     for (let i = 0; i < 4; i++) {
       for (var j = 0; j < 4; j++) {
         gameSpace[i][j].isIncreaced = false;
+        gameSpace[i][j].isPositionChanged = false;
       }
     }
+    isFieldChanged = false;
   }
 
 
