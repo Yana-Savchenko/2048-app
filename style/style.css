@@ -1,3 +1,31 @@
+@keyframes move {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(-100%, 0, 0);
+        transform: translate3d(-100%, 0, 0);
+    };
+    to {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    };
+}
+@keyframes pulse {
+    from {
+        opacity: 0;
+        transform: scale3d(1, 1, 1);
+      }
+    
+      50% {
+        opacity: 1;
+        transform: scale3d(1.05, 1.05, 1.05);
+      }
+    
+      to {
+        transform: scale3d(1, 1, 1);
+      }
+    }
+
 html {
     font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
     color: #776e66;
@@ -74,6 +102,9 @@ span {
     color: #f9f6f2;
     font-size: 55px;
     font-weight: bold;
+}
+.new-cell {
+    animation: pulse 1s;
 }
 .cell2 {
     background-color: #efe3da;

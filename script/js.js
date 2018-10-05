@@ -3,6 +3,8 @@ $(document).ready(function () {
   let isFieldChanged = false;
   let isStart = true;
   let counter = 0;
+  let newCells = [];
+  let increacedCells = [];
   initialize();
 
 
@@ -214,6 +216,7 @@ $(document).ready(function () {
     newNumber = random(1, 10) === 4 ? 4 : 2;
     newCell = emptyCells[random(0, emptyCells.length - 1)];
     gameSpace[newCell.x][newCell.y] = newNumber;
+    newCells.push({x: newCell.x, y: newCell.y}); 
   }
 
   function checkMove() {
@@ -253,6 +256,12 @@ $(document).ready(function () {
       for (var j = 0; j < 4; j++) {
         let cell = document.createElement('div');
         $(cell).addClass("cell");
+        newCells.forEach((newCell) => {
+          console.log(newCell.x);
+          if(i === newCell.x && j === newCell.y) {
+            $(cell).addClass("new-cell");
+          }
+        })
         switch (gameSpace[i][j]) {
           case (2): {
             $(cell).text(gameSpace[i][j]);
@@ -323,5 +332,7 @@ $(document).ready(function () {
 
     $("#score").text(counter);
     isFieldChanged = false;
+    console.log(newCells);
+    newCells = [];
   }
 });
